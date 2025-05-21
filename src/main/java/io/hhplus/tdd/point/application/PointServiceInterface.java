@@ -1,4 +1,7 @@
-package io.hhplus.tdd.point;
+package io.hhplus.tdd.point.application;
+import io.hhplus.tdd.point.domain.PointHistory;
+import io.hhplus.tdd.point.domain.UserPoint;
+
 import java.util.List;
 
 public interface PointServiceInterface {
