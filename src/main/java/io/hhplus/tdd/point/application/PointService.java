@@ -2,6 +2,7 @@ package io.hhplus.tdd.point.application;
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
 import io.hhplus.tdd.point.domain.PointHistory;
+import io.hhplus.tdd.point.domain.PointSynchronizer;
 import io.hhplus.tdd.point.domain.UserPoint;
 import io.hhplus.tdd.point.policy.PointPolicy;
 import io.hhplus.tdd.point.policy.PointPolicyInterface;
@@ -27,6 +28,7 @@ public class PointService implements PointServiceInterface {
     /* 특정 유저의 포인트를 충전한다.*/
     @Override
     public UserPoint chargePoint(long id, long amount) {
+        return PointSynchronizer.executeSynchronized(id, () -> {
         // 1. 현재 포인트 조회
         UserPoint currentPoint = new UserPointTable().selectById(id);
 
@@ -38,6 +40,7 @@ public class PointService implements PointServiceInterface {
 
         // 4. 포인트 업데이트 및 반환
         return new UserPointTable().insertOrUpdate(id, amount);
+        });
     }
 
     /* 특정 유저의 포인트를 사용한다.*/
