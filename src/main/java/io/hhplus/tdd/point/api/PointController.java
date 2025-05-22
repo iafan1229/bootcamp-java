@@ -1,5 +1,4 @@
 package io.hhplus.tdd.point.api;
-
 import io.hhplus.tdd.point.application.PointService;
 import io.hhplus.tdd.point.domain.PointHistory;
 import io.hhplus.tdd.point.domain.UserPoint;
