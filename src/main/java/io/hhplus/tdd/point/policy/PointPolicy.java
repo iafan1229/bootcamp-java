@@ -1,35 +1,32 @@
 package io.hhplus.tdd.point.policy;
 
 import io.hhplus.tdd.point.domain.UserPoint;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
-public class PointPolicy implements PointPolicyInterface {
-    private final List<PointPolicyInterface> policies = new ArrayList<>();
+@Service
+public class PointPolicy {
+    private final BasicPointPolicy basicPointPolicy;
+    private final MaxBalancePointPolicy maxBalancePointPolicy;
+    private final ChargeAmountPolicy chargeAmountPolicy;
 
-    public PointPolicy() {
-        // 기본 정책들 추가
-        policies.add(new BasicPointPolicy());
-        policies.add(new MaxBalancePointPolicy());
-        policies.add(new ChargeAmountPolicy());
+    // 구체적인 정책들을 직접 주입받음
+    public PointPolicy(BasicPointPolicy basicPointPolicy,
+                       MaxBalancePointPolicy maxBalancePointPolicy,
+                       ChargeAmountPolicy chargeAmountPolicy) {
+        this.basicPointPolicy = basicPointPolicy;
+        this.maxBalancePointPolicy = maxBalancePointPolicy;
+        this.chargeAmountPolicy = chargeAmountPolicy;
     }
-//
-//    // 추가 정책을 동적으로 등록할 수 있는 메서드
-//    public void addPolicy(PointPolicy policy) {
-//        policies.add(policy);
-//    }
 
-    @Override
     public void validateChargePolicy(UserPoint userPoint, long amount) {
-        for (PointPolicyInterface policy : policies) {
-            policy.validateChargePolicy(userPoint, amount);
-        }
+        basicPointPolicy.validateChargePolicy(userPoint, amount);
+        maxBalancePointPolicy.validateChargePolicy(userPoint, amount);
+        chargeAmountPolicy.validateChargePolicy(userPoint, amount);
     }
 
-    @Override
     public void validateUsePolicy(UserPoint userPoint, long amount) {
-        for (PointPolicyInterface policy : policies) {
-            policy.validateUsePolicy(userPoint, amount);
-        }
+        basicPointPolicy.validateUsePolicy(userPoint, amount);
+        maxBalancePointPolicy.validateUsePolicy(userPoint, amount);
+        chargeAmountPolicy.validateUsePolicy(userPoint, amount);
     }
 }

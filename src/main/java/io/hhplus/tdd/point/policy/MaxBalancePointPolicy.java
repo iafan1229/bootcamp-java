@@ -1,7 +1,9 @@
 package io.hhplus.tdd.point.policy;
 
 import io.hhplus.tdd.point.domain.UserPoint;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MaxBalancePointPolicy implements PointPolicyInterface {
     private static final long MAX_POINT_BALANCE = 1_000_000; // 백만 포인트
 

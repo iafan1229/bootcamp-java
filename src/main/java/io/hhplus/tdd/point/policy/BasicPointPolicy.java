@@ -1,7 +1,9 @@
 package io.hhplus.tdd.point.policy;
 
 import io.hhplus.tdd.point.domain.UserPoint;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BasicPointPolicy implements PointPolicyInterface {
     @Override
     public void validateChargePolicy(UserPoint userPoint, long amount) {

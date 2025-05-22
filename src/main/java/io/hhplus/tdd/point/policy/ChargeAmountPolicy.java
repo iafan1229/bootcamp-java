@@ -1,7 +1,9 @@
 package io.hhplus.tdd.point.policy;
 
 import io.hhplus.tdd.point.domain.UserPoint;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChargeAmountPolicy implements PointPolicyInterface {
     private static final long MAX_CHARGE_AMOUNT = 500_000;   // 최대 충전 금액
     private static final long MIN_CHARGE_AMOUNT = 1_000;     // 최소 충전 금액
