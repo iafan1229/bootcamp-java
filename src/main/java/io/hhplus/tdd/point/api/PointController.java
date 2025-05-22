@@ -19,6 +19,13 @@ public class PointController {
 
     private static final Logger log = LoggerFactory.getLogger(PointController.class);
 
+    private final PointService pointService; // 👈 외부에서 받을 준비
+
+    // 생성자를 통해 PointService를 받음 (생성자 주입)
+    public PointController(PointService pointService) {
+        this.pointService = pointService; // 👈 외부에서 넣어줌!
+    }
+
     /**
      * 특정 유저의 포인트를 조회한다.
      *
@@ -27,11 +34,10 @@ public class PointController {
      */
     @GetMapping("/{userId}")
     public ResponseEntity<UserPoint> getUserPoint(@PathVariable long userId) {
-        log.info("포인트 조회 요청 - 유저 ID: {}", userId);
-        UserPoint userPoint = new PointService().getUserPoint(userId);
+        // 받아둔 PointService 사용
+        UserPoint userPoint = pointService.getUserPoint(userId); // 👈 주입받은 것 사용!
         return ResponseEntity.ok(userPoint);
     }
-
     /**
      * 특정 유저의 포인트 충전/이용 내역을 조회한다.
      *
@@ -41,7 +47,7 @@ public class PointController {
     @GetMapping("/{userId}/histories")
     public ResponseEntity<List<PointHistory>> getPointHistories(@PathVariable long userId) {
         log.info("포인트 이력 조회 요청 - 유저 ID: {}", userId);
-        List<PointHistory> histories = new PointService().getPointHistories(userId);
+        List<PointHistory> histories = pointService.getPointHistories(userId);
         return ResponseEntity.ok(histories);
     }
 
@@ -60,7 +66,7 @@ public class PointController {
         log.info("포인트 충전 요청 - 유저 ID: {}, 금액: {}", userId, request.getAmount());
 
         try {
-            UserPoint userPoint = new PointService().chargePoint(userId, request.getAmount());
+            UserPoint userPoint = pointService.chargePoint(userId, request.getAmount());
             return ResponseEntity.ok(userPoint);
         } catch (IllegalArgumentException e) {
             log.error("포인트 충전 오류 - 유저 ID: {}, 금액: {}, 오류: {}",
@@ -84,7 +90,7 @@ public class PointController {
         log.info("포인트 사용 요청 - 유저 ID: {}, 금액: {}", userId, request.getAmount());
 
         try {
-            UserPoint userPoint = new PointService().usePoint(userId, request.getAmount());
+            UserPoint userPoint = pointService.usePoint(userId, request.getAmount());
             return ResponseEntity.ok(userPoint);
         } catch (IllegalArgumentException e) {
             log.error("포인트 사용 오류 - 유저 ID: {}, 금액: {}, 오류: {}",
