@@ -3,9 +3,9 @@ package io.hhplus.tdd.point.application;
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
 import io.hhplus.tdd.point.domain.PointHistory;
-import io.hhplus.tdd.point.domain.PointSynchronizer;
+import io.hhplus.tdd.point.common.PointSynchronizer;
 import io.hhplus.tdd.point.domain.UserPoint;
-import io.hhplus.tdd.point.policy.PointPolicy;
+import io.hhplus.tdd.point.domain.policy.PointPolicy;
 import io.hhplus.tdd.point.domain.TransactionType;
 import org.springframework.stereotype.Service;
 
